@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "75d4dd0f-32ee-449b-a5eb-08448dd3268d",
+		"name": "Address_Token_Through_PreRequest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create an Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Capture access_token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"Address_ID_global\",jsonData.data.country_id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.test('Access Toekn',function(){\r",
+							"pm.sendRequest({\r",
+							"    url: 'https://demo.spreecommerce.org/spree_oauth/token',\r",
+							"    method: 'POST',\r",
+							"    header: { \r",
+							"        \"Content-Type\" : \"application/json\"\r",
+							"            },\r",
+							"   body:{\r",
+							"      mode:'raw',\r",
+							"      raw: JSON.stringify({\r",
+							"           \"grant_type\": \"password\",\r",
+							"    \"username\": \"postman3991@spree.com\",\r",
+							"    \"password\": \"Spree@123\"\r",
+							"    })\r",
+							"   }\r",
+							"},\r",
+							"    function(err,response) {\r",
+							"        console.log(response);\r",
+							"        let responsejson = response.json();\r",
+							"        pm.globals.set('Collection_Token',responsejson.access_token);\r",
+							"    }\r",
+							")\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n    \"country_id\": \"224\",\r\n    \"state_id\": \"516\",\r\n    \"state_name\": \"New York\",\r\n    \"address1\": \"5th ave\",\r\n    \"address2\": \"1st suite\",\r\n    \"city\": \"NY\",\r\n    \"zipcode\": \"10001\",\r\n    \"phone\": \"+1 123 456 789\",\r\n    \"alternative_phone\": \"string\",\r\n    \"firstname\": \"mb\",\r\n    \"lastname\": \"ban\",\r\n    \"company\": \"Vendo Cloud Inc\",\r\n    \"user_id\": \"string\",\r\n    \"public_metadata\": {\r\n      \"distance_from_nearest_city_in_km\": 10,\r\n      \"location_type\": \"building\"\r\n    },\r\n    \"private_metadata\": {\r\n      \"close_to_shop\": true\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/account/addresses",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all Addresses",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n    \"country_id\": \"\",\r\n    \"state_id\": \"516\",\r\n    \"state_name\": \"New York\",\r\n    \"address1\": \"5th ave\",\r\n    \"address2\": \"1st suite\",\r\n    \"city\": \"NY\",\r\n    \"zipcode\": \"10001\",\r\n    \"phone\": \"+1 123 456 789\",\r\n    \"alternative_phone\": \"string\",\r\n    \"firstname\": \"John\",\r\n    \"lastname\": \"Snow\",\r\n    \"label\": \"My home address\",\r\n    \"company\": \"Vendo Cloud Inc\",\r\n    \"user_id\": \"string\",\r\n    \"public_metadata\": {\r\n      \"distance_from_nearest_city_in_km\": 10,\r\n      \"location_type\": \"building\"\r\n    },\r\n    \"private_metadata\": {\r\n      \"close_to_shop\": true\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/account/addresses",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*\r",
+							"  pm.test(\"Your test name\", function () {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect(jsonData.data.id).to.eql(\"{{Address_ID_global}}\");\r",
+							"        pm.expect(jsonData.value).to.eql(100);\r",
+							"    });\r",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n    \"firstname\": \"Zen_Maruti\",\r\n    \"lastname\": \"Smith\",\r\n    \"company\": \"Woodbank School\",\r\n    \"address1\": \"234 Old Georgetown Road\",\r\n    \"address2\": \"1st Floor\",\r\n    \"city\": \"Aethesda\",\r\n    \"phone\": \"34885493845002\",\r\n    \"zipcode\": \"90211\",\r\n    \"state_name\": \"CA\",\r\n    \"country_iso\": \"US\"\r\n   \r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/account/addresses/{{Address_ID_global}}",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses",
+						"{{Address_ID_global}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove an Address_204_NoContent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n    \"firstname\": \"Maruti\",\r\n    \"lastname\": \"Smith\",\r\n    \"company\": \"Woodbank School\",\r\n    \"address1\": \"234 Old Georgetown Road\",\r\n    \"address2\": \"1st Floor\",\r\n    \"city\": \"Aethesda\",\r\n    \"phone\": \"34885493845002\",\r\n    \"zipcode\": \"90211\",\r\n    \"state_name\": \"CA\",\r\n    \"country_iso\": \"US\",\r\n    \"label\": \"Office12\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/account/addresses/{{Address_ID_global}}",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses",
+						"{{Address_ID_global}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Collection_Token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "a57b251f-e44a-428d-a97a-ecad22a0c318",
+		"name": "Addresses_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create or Refresh a Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Capture access_token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"token_global\",jsonData.access_token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"grant_type\": \"password\",\r\n  \"username\": \"postman1111@spree.com\",\r\n  \"password\": \"Spree@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/spree_oauth/token",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"spree_oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Capture access_token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"Address_ID_global\",jsonData.data.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n    \"country_id\": \"224\",\r\n    \"state_id\": \"516\",\r\n    \"state_name\": \"New York\",\r\n    \"address1\": \"5th ave\",\r\n    \"address2\": \"1st suite\",\r\n    \"city\": \"NY\",\r\n    \"zipcode\": \"10001\",\r\n    \"phone\": \"+1 123 456 789\",\r\n    \"alternative_phone\": \"string\",\r\n    \"firstname\": \"mb\",\r\n    \"lastname\": \"ban\",\r\n    \"company\": \"Vendo Cloud Inc\",\r\n    \"user_id\": \"string\",\r\n    \"public_metadata\": {\r\n      \"distance_from_nearest_city_in_km\": 10,\r\n      \"location_type\": \"building\"\r\n    },\r\n    \"private_metadata\": {\r\n      \"close_to_shop\": true\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/account/addresses",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all Addresses",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token_global}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": {\r\n    \"country_id\": \"\",\r\n    \"state_id\": \"516\",\r\n    \"state_name\": \"New York\",\r\n    \"address1\": \"5th ave\",\r\n    \"address2\": \"1st suite\",\r\n    \"city\": \"NY\",\r\n    \"zipcode\": \"10001\",\r\n    \"phone\": \"+1 123 456 789\",\r\n    \"alternative_phone\": \"string\",\r\n    \"firstname\": \"John\",\r\n    \"lastname\": \"Snow\",\r\n    \"label\": \"My home address\",\r\n    \"company\": \"Vendo Cloud Inc\",\r\n    \"user_id\": \"string\",\r\n    \"public_metadata\": {\r\n      \"distance_from_nearest_city_in_km\": 10,\r\n      \"location_type\": \"building\"\r\n    },\r\n    \"private_metadata\": {\r\n      \"close_to_shop\": true\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.spreecommerce.org/api/v2/storefront/account/addresses",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"spreecommerce",
+						"org"
+					],
+					"path": [
+						"api",
+						"v2",
+						"storefront",
+						"account",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
