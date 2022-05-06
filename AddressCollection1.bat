@@ -1,0 +1,1 @@
+newman run Address_Through_Collection.postman_collection.json -r cli htmlextra
